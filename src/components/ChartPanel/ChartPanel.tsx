@@ -8,10 +8,12 @@ import { useSelection } from '../../context/SelectionContext'
 import { NUMERIC_COLUMNS } from '../../types/earthquake'
 import type { NumericKey, EarthquakeRow } from '../../types/earthquake'
 
+
 interface Props {
   data: EarthquakeRow[]
 }
 
+// ChartPanel component: displays a scatter plot of earthquake data with interactive tooltips and selection
 export default function ChartPanel({ data }: Props) {
   const [xKey, setXKey] = useState<NumericKey>('longitude')
   const [yKey, setYKey] = useState<NumericKey>('latitude')
@@ -22,7 +24,7 @@ export default function ChartPanel({ data }: Props) {
   const setSelectedId  = useEarthquakeStore(s => s.setSelectedId)
   const { setSelectedEntry } = useSelection()
 
-  // ✅ Limit to 2000 points for performance — keeps chart snappy
+  //  Limit to 2000 points for performance — keeps chart snappy
   const chartData = useMemo(() => data.slice(0, 2000), [data])
 
   const handleMouseEnter = useCallback((_: any, __: any, e: any) => {
@@ -34,7 +36,7 @@ export default function ChartPanel({ data }: Props) {
     setHoveredId(null)
   }, [setHoveredId])
 
-  // ✅ Recharts Scatter onClick receives the data entry directly
+  // Recharts Scatter onClick receives the data entry directly
   const handleDotClick = useCallback((entry: any) => {
     if (entry?.id) {
       setSelectedId(entry.id)
@@ -93,7 +95,7 @@ export default function ChartPanel({ data }: Props) {
 
       {/* Chart */}
       <div className="flex-1 min-h-0">
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%" minHeight={200}>
           <ScatterChart margin={{ top: 10, right: 20, bottom: 30, left: 20 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
             <XAxis

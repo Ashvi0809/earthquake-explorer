@@ -1,3 +1,4 @@
+// Interface for each earthquake data row
 export interface EarthquakeRow {
   time: string
   latitude: number
@@ -23,8 +24,10 @@ export interface EarthquakeRow {
   magSource: string
 }
 
+// Type for keys that represent numeric values
 export type NumericKey = 'mag' | 'depth' | 'latitude' | 'longitude' | 'gap' | 'dmin' | 'rms' | 'nst'
 
+// List of numeric columns for dropdowns
 export const NUMERIC_COLUMNS: { key: NumericKey; label: string }[] = [
   { key: 'mag', label: 'Magnitude' },
   { key: 'depth', label: 'Depth (km)' },

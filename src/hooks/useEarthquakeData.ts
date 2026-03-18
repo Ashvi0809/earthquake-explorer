@@ -10,15 +10,20 @@ function parseNumber(val: string): number {
 }
 
 async function fetchEarthquakes(): Promise<EarthquakeRow[]> {
+  // Fetch the CSV data
   const response = await fetch(CSV_URL)
+  // Read as text for PapaParse
   const text = await response.text()
 
   return new Promise((resolve, reject) => {
+    // Parse CSV with PapaParse
     Papa.parse(text, {
       header: true,
       skipEmptyLines: true,
       complete: (results) => {
+        // console.log(results.data,"result")
         const rows = (results.data as Record<string, string>[]).map((row) => ({
+          // Parse and convert fields, providing defaults for missing values
           time: row.time ?? '',
           latitude: parseNumber(row.latitude),
           longitude: parseNumber(row.longitude),
@@ -42,6 +47,7 @@ async function fetchEarthquakes(): Promise<EarthquakeRow[]> {
           locationSource: row.locationSource ?? '',
           magSource: row.magSource ?? '',
         }))
+        // console.log("FINAL ROWS:", rows);
         resolve(rows)
       },
       error: reject,
@@ -49,6 +55,7 @@ async function fetchEarthquakes(): Promise<EarthquakeRow[]> {
   })
 }
 
+// Custom hook to fetch earthquake data using React Query
 export function useEarthquakeData() {
   return useQuery({
     queryKey: ['earthquakes'],
