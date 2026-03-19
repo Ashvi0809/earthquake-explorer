@@ -27,10 +27,7 @@ export default function ChartPanel({ data }: Props) {
   //  Limit to 2000 points for performance — keeps chart snappy
   const chartData = useMemo(() => data.slice(0, 2000), [data])
 
-  const handleMouseEnter = useCallback((_: any, __: any, e: any) => {
-    const id = e?.activePayload?.[0]?.payload?.id
-    if (id) setHoveredId(id)
-  }, [setHoveredId])
+
 
   const handleMouseLeave = useCallback(() => {
     setHoveredId(null)
